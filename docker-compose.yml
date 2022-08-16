@@ -1,0 +1,51 @@
+
+version: '2'
+
+services:
+  webserver:
+    build: ./docker/webserver
+    image: php:7.4.0-apache
+    container_name: www
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /www/site:/var/www/html
+    links:
+      - db
+    networks:
+      - default
+    restart: always
+
+  db:
+    image: mysql:5.7
+    container_name: sitedb
+    ports:
+     - "3306:3306"
+    command: --max_allowed_packet=32505856    
+    environment:
+        MYSQL_DATABASE: sitedb
+        MYSQL_USER: sitedb
+        MYSQL_PASSWORD: mypassword
+        MYSQL_ROOT_PASSWORD: rootadm 
+    volumes:        
+        - /www/site/bd/sitedb.sql:/docker-entrypoint-initdb.d/sitedb.sql  
+    networks:
+        - default
+    restart: always
+  
+  phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links: 
+            - db:db
+        container_name: phpmyadmin 
+        ports:
+            - 8000:80
+        environment:        
+            MYSQL_USER: sitedb
+            MYSQL_PASSWORD: mypassword
+            MYSQL_ROOT_PASSWORD: rootadm
+            restart: always
+volumes:
+    dumps:
+    

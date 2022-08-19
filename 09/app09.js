@@ -32,6 +32,36 @@
         items = JSON.parse(localStorage.getItem('items'));
       }
       return items;
+    },
+    // Update items in the localStorage
+    updateItemStorage: function(updatedItem){
+      let items = JSON.parse(localStorage.getItem('items'));
+      
+      items.forEach(function(item, index){
+        if(updatedItem.id === item.id){
+          //remove the item and replace with the updatedItem
+          items.splice(index, 1, updatedItem);
+        }
+      });
+    // set items on localStorage
+    localStorage.setItem('items', JSON.stringify(items));
+    },
+    // Delete item in the localStorage
+    deleteItemFromStorage: function(id){
+      let items = JSON.parse(localStorage.getItem('items'));
+      
+      items.forEach(function(item, index){
+        if(id === item.id){
+          //remove the item
+          items.splice(index, 1);
+        }
+      });
+    // set items on localStorage
+    localStorage.setItem('items', JSON.stringify(items));
+    },
+    // Cliar items from localStorage
+    clearItemsFromStorage: function(){
+      localStorage.removeItem('items');
     }
   }
 })();
@@ -299,6 +329,10 @@ const App = (function(itemCtrl,StorageCtrl,UICtrl){
     UICtrl.updateListItem(updateItem);
     const totalCalories = itemCtrl.getTotalCalories();
     UICtrl.showTotalCalories(totalCalories);
+
+    // Update localStorage
+    StorageCtrl.updateItemStorage(updateItem);
+
     UICtrl.clearEditState();
     e.preventDefault();
   }
@@ -309,6 +343,10 @@ const App = (function(itemCtrl,StorageCtrl,UICtrl){
     UICtrl.deleteListItem(currentItem.id);
     const totalCalories = itemCtrl.getTotalCalories();
     UICtrl.showTotalCalories(totalCalories);
+
+    // Delete from localStorage
+    StorageCtrl.deleteItemFromStorage(currentItem.id);
+
     UICtrl.clearEditState();
     e.preventDefault();
   }
@@ -321,6 +359,9 @@ const App = (function(itemCtrl,StorageCtrl,UICtrl){
     UICtrl.showTotalCalories(totalCalories);
     
     UICtrl.removeItems();
+
+    // Clear from localStorage
+    StorageCtrl.clearItemsFromStorage();
 
     UICtrl.hideList();
   }

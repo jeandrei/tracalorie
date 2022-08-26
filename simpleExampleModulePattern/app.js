@@ -7,7 +7,8 @@
  *    logData
  * 
  * 2 Criar UICtrl
- *    Crir a const UISelectors
+ *    Crir a const UISelectors cuidado no itemList 
+ *    e listItems que tem que selecionar "#item-list li"
  *    Public Methods
  *    getSelectors
  *    getItemsInput
@@ -98,8 +99,14 @@
  *      verifica se a localStorage itemsls é null se for null define o array como vazio []
  *      caso contrário items recebe o que tiver em itemsls
  *      retorna items
- *    substitui os valores de ItemCtrl data pelo retorno da função 
- *    StorageCtrl.getItemsFromStorage
+ *      substitui os valores de ItemCtrl data pelo retorno da função 
+ *      StorageCtrl.getItemsFromStorage
+ *    updateItemStorage(updateItemId)
+ *      cria uma variavel items que recebe o que tem em localStorage.getItem('itemls')
+ *      da um forEach nos items com item e index
+ *      se o updateItemId.id for igual ao item.id do forEach
+ *      da um items.splice(index, 1, updateItem);
+ *      atualiza o localStorage
  * 
  * 9 Mostrar e ocultar os botões Update, Delete e Back 
  *    Criamos a função que vai esconder os botões de update e delete
@@ -109,29 +116,35 @@
  *    Carregamos a função clearEditSTate junto no app init primeira linha
  * 
  * 9 Edit item   
- *    
- *       
- * 
- * 
- * 16 no App dentro do init antes do loadEventListener também repetir o passo 15 
- * 
- * 19 Cria a função ItemCtrl.setCurrentItem que vai setar o item atual que estamos editando
- * para o current item
- * 
- * 
- * 20 UICtrl getItemById que retorna um item pelo id 
- * 
- * 21 Criar a função ItemCtrl.getCurrentItem que vai retornar o data.currentItem
- * 
- * 22 Criamos a UICtrl addItemToForm que vai adicionar os ítens que estiverem no objeto
- * Item nos inputs do formulário
- * 
- * 23 Criamos uma const itemEditClick dentro de App assim como foi feito do itemAddSubmit
- * e chamamos ela no evenListener do botão do UISelectors.itemList filtrando pela
- * classList contains edit-item, pegamos o id e passamos para a const listId
- * damos um split na listId e jogamos para um array listIdArr
- * pegamos o id parseint listArr[1] e o itemToEdit = itemCtrl.getItemById(id);
- * setamos o current item para itemToEdit e adicionamos o item ao form UICtrl.addItemToForm
+ *  Cria a função ItemCtrl.setCurrentItem que vai setar o item atual que estamos editando
+ *  para o current item
+ *  Criar a função ItemCtrl.getCurrentItem que vai retornar o data.currentItem
+ *  Cria a função ItemCtrl getItemById que retorna um item pelo id
+ *  Criamos a função UICtrl.showEditState que vai mostrar os botões de delete, update e back
+ *  Criamos a UICtrl addItemToForm que vai adicionar os ítens que estiverem no objeto
+ *  Item nos inputs do formulário e vai chamar a função UICtrl.showEditState para mostrar os
+ *  botões no formulário 
+ *  Criamos uma const itemEditClick dentro de App assim como foi feito do itemAddSubmit
+ *  e chamamos ela no evenListener do botão do UISelectors.itemList filtrando pela
+ *  classList contains edit-item, pegamos o id e passamos para a const listId
+ *  damos um split na listId e jogamos para um array listIdArr
+ *  pegamos o id parseint listArr[1] e o itemToEdit = itemCtrl.getItemById(id);
+ *  setamos o current item para itemToEdit e adicionamos o item ao form UICtrl.addItemToForm
+ *  No ItemCtrl criamos uma função updateItem(name,calories) para atualizar o item que
+ *  retorna o item atualizado
+ *  Criamos uma função UICtrl.updateListItem(updateItem) que vai atualizar a lista
+ *  de itens
+ *  No App cria uma nova const itemUpdateSubmit que vai atualizar a lista e o localStorage
+ *  criamos uma const input que recebe os inputs de UICtrl.getItemInput
+ *  criamos uma const updateItem que vai receber o retorno da função itemCtrl.updateItem
+ *  depois chama o UICtrl updateListItem(updateItem) 
+ *  cria uma const totalCalories chamando itemCtrl.getTotalCalories();
+ *  chama UICtrl.showTotalCalories(totalCalories);
+ *  chama a StorageCtrl.updateItemStorage(updateItem);
+ *  por fim UICtrl.clearEditState();
+ *  Cria o event listener para o botão atualizar executando a função itemUpdateSubmit
+ *  
+ *  
  * 
  * 
  *      

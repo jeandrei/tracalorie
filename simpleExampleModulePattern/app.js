@@ -1,6 +1,6 @@
 /**
  * 1 Criar o ItemCtrl
- *    Criar o objeto Item com id e nome
+ *    Criar o objeto Item com id e nome e calories e também currentItem e totalCalories
  *    Criar a const data com os dados de exemplo
  *    Public methods
  *    getItems
@@ -15,31 +15,74 @@
  *
  * 3 Criar App
  *    Criar loadEventListeners
- *      UISelectors recebe getSelectors
- *      itemAddSubmit 
- *        input recebe getItemsInput
- *        console inputs
- *        Adiciona evento clic no botão Add item executando o metodo itemAddSubmit
+ *      UISelectors recebe getSelectors      
  *    Public methods
  *      loadEventListeners
  * 
  * 4 Inicia o App
  * 
- * 5 No ItemCtrl cria a função 
- *    addItem
- *    verifica se tem itens no array
- *    gera um ID se nada ID = 0 se não o ID vai ser o número de registros +1
- *    cria um newItem
- *    push no data
- *    retorna newItem
- * 6 no UICtrl adicionar a função
- *    addListItem
- *    cria um elemento li
- *    define o li.id
- *    define o li.innerhtml
- *    insertAdjacentElement
  * 
- * 7 Criar o StorageCtrl
+ * 5 Total Calories 
+ *    Criamos a função que vai calcular o todal de calorias para ser mostrado no Total 
+ *    Calories
+ *    no ItemCtrl criar a função getTotalCalories
+ *    que da um foreach nos itens somando as calorias e passando o valor para 
+ *    o data.totalCalories e dando um return também no data.totalCalories
+ *    Criamos também a função UICtrl.showTotalCalories(totalCalories) que vai dar um
+ *    innerText no totalcalories do index.html
+ *    por fim no init chamamos
+ *    totalCalories = ItemCtrl.getTotalCalories();
+ *    UICtrl.showTotalCalories(totalCalories);
+ * 
+ * 
+ * 
+ * 5 Add new Item
+ * 
+ * 6 No UICtrl cria a função clearInput que faz com que os campos recebam ""
+ *    Dentro do App e dentro de loadEventListeners cria a função itemAddSubmit
+ *    Logo abaixo ainda dentro de loadEventListeners já cria o evento onclick do botão add
+ *    chamando a função itemAddSubmit 
+ *    Em ItemAddSubmit
+ *    Criamos a const input que recebe getItemsInput
+ *    No ItemCtrl cria a função
+ *    addItem
+ *       verifica se tem itens no array
+ *       gera um ID se nada ID = 0 se não o ID vai ser o número de registros +1
+ *       se tiver algum campo numérico como calories converta para número com parseint por
+ *       exemplo, caso contrário não será possível fazer operações matemáticas
+ *       cria um newItem
+ *       push no data
+ *       retorna newItem
+ *       em itemAddSubmit cria uma const newItem recebendo o return da função addItem 
+ *       passando o input para a função
+ *       em itemAddSubmit chama a função UICtrl.clearInput();
+ *       em itemAddSubmit chama novamente a funçao para atualiza o totalCalories
+ *       totalCalories = ItemCtrl.getTotalCalories();
+ *       UICtrl.showTotalCalories(totalCalories);
+ *       Chama a função
+ *    No UICtrl adicionar a função
+ *    addListItem
+ *        cria um elemento li
+ *        define o li.id
+ *        define o li.innerhtml
+ *        insertAdjacentElement
+ *        Por fim em itemAddSubmit chama addListItem(newItem)
+ *        UICtrl.addListItem(newItem);
+ *    
+ * 
+ *  7 Mostrar todos items na li da página index
+ *        No App init criamos uma const items que recebe ItemCtrl getItems() * 
+ *        Criamos na UICtrl o metodo populateItemList(items) 
+ *        que vai colocar os itens na ul
+ *          populateItemList passando o item
+ *          cria uma variável html recebendo vazio
+ *          para cada item passado o html acumula o código li
+ *          por fim insere o html na itemList 
+ *    Chama a populateItemList no init
+ *    
+ *    
+ * 
+ * 8 Criar o StorageCtrl
  *    storeItem
  *      cria um array let items;
  *      verifica se existe items na localStorage chamada itemsls se for igual a null
@@ -49,27 +92,55 @@
  *      items recebe o que existe na localStorage itemsls
  *      da um push do item recebido na função no array items 
  *      reescreve tudo na localStorage set items itemsls items
+ *      em itemAddSubmit chama o storeItem(newItem)
  *    getItemsFromStorage
  *      cria um variável items;
  *      verifica se a localStorage itemsls é null se for null define o array como vazio []
  *      caso contrário items recebe o que tiver em itemsls
  *      retorna items
+ *    substitui os valores de ItemCtrl data pelo retorno da função 
+ *    StorageCtrl.getItemsFromStorage
  * 
- * 8 ItemCtrl items recebe StorageCtrl.getItemsFromStorage()
+ * 9 Mostrar e ocultar os botões Update, Delete e Back 
+ *    Criamos a função que vai esconder os botões de update e delete
+ *    UICtrl.clearEditSTate() 
+ *      chama a função UICtrl.clearInput() para limpar os campos
+ *      definimos os campos update, delete e back como display none e add display inline
+ *    Carregamos a função clearEditSTate junto no app init primeira linha
  * 
- * 9 No App init criamos uma const items que recebe ItemCtrl getItems()
+ * 9 Edit item   
+ *    
+ *       
  * 
- * 10 Criamos a na UICtrl o metodo populateItemList(items) que vai colocar os itens na ul
- *      populateItemList passando o item
- *      cria uma variável html recebendo vazio
- *      para cada item passado o html acumula o código li
- *      por fim insere o html na itemList
  * 
- * 11 Chama a populateItemList no init
+ * 16 no App dentro do init antes do loadEventListener também repetir o passo 15 
+ * 
+ * 19 Cria a função ItemCtrl.setCurrentItem que vai setar o item atual que estamos editando
+ * para o current item
+ * 
+ * 
+ * 20 UICtrl getItemById que retorna um item pelo id 
+ * 
+ * 21 Criar a função ItemCtrl.getCurrentItem que vai retornar o data.currentItem
+ * 
+ * 22 Criamos a UICtrl addItemToForm que vai adicionar os ítens que estiverem no objeto
+ * Item nos inputs do formulário
+ * 
+ * 23 Criamos uma const itemEditClick dentro de App assim como foi feito do itemAddSubmit
+ * e chamamos ela no evenListener do botão do UISelectors.itemList filtrando pela
+ * classList contains edit-item, pegamos o id e passamos para a const listId
+ * damos um split na listId e jogamos para um array listIdArr
+ * pegamos o id parseint listArr[1] e o itemToEdit = itemCtrl.getItemById(id);
+ * setamos o current item para itemToEdit e adicionamos o item ao form UICtrl.addItemToForm
+ * 
+ * 
  *      
  *      
  *    
  */
+
+
+
 
 /**********************************STORAGE CONTROLLER**************************************
  *

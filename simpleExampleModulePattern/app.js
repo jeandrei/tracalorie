@@ -144,14 +144,66 @@
  *  por fim UICtrl.clearEditState();
  *  Cria o event listener para o botão atualizar executando a função itemUpdateSubmit
  *  
- *  
+ *  10 Delete item
+ *    Em ItemCtrl cria a função deleteItem passando o id a ser deletado
+ *    1ª coisa vamos pegar apenas os ids de todos os items usando a função map
+ *    cria uma const ids passando todos os ids data.items.map
+ *    depois cria uma const index passando o indice do id dentro do array ids.indexOf(id)
+ *    depois remove o item do indice data.items.splice(index,1);
+ *    Cria a função deleteItemFromStorage passando o ID para remover do localStorage
+ *    cria uma const items pegando o que tiver no localStorage itemsls
+ *    Da um forEach para cada items passando o item e o index se o id for igual ao item.id
+ *    remove o item items.splice(index,1)
+ *    por fim grava items na localStorage items.setItem('itemsl', JSON.strygnify(items));
+ *    Agora na UIContrl criamos a função deleteListItem passando o id para remover da lista
+ *    Criamos uma const itemId e definimos o valor para receber #item-${id}
+ *    Criamos uma const item que buscamos o objeto com document.querySelector(itemID)
+ *    por fim apenas removemos item.remove();
+ *    No app criamos a função que vai executr todas as outras para remover o item
+ *    itemDeleteSubmit
+ *    criamos uma const currentItem que vai receber o que estiver na ItemCtrl.getCurrentItem
+ *    Deletamos do array data
+ *    itemCtrl.deleteItem(currentItem.id)
+ *    Deletamos da lista
+ *    UICtrl.deleteListItem(currentItem.id)
+ *    Deletamos da localStorage
+ *    StorageCtrl.deleteItemFromStorage(currentItem.id);
+ *    Atualizamos o total
+ *    Pegamos o total
+ *    totalCalories = itemCtrl.getTotalCalories();
+ *    Atualizamos na pagina
+ *    UICtrl.showTotalCalories(totalCalories);
+ *    Por fim atualizamos os botões
+ *    UICtrl.clearEditState();
+ *    Por fim cria o evento do botão delete executando a função itemDeleteSubmit
  * 
+ * 11 Botão Clear All
+ *    Criamos a função itemCtrl.clearAllItems que simplesmente
+ *      vai setar ou zerar o array data.items = []
+ *    Depois no UICtrl criamos a função removeItems
+ *      criamos uma const listItems pegando todos os items 
+ *      document.querySelectorAll(UISelectors.listItems);
+ *      depois transformamos o listItems em um Array
+ *      Array.from(listItems)
+ *      por fim damos um forEach removendo item por item item.remove();
+ *    Criamos a função clearItemsFromStorage
+ *      vai simplesmente dar um localStorage.removeItem('itemsl');
+ *    No UICtrl criamos a função hideList 
+ *      que vai apenas dar um display none no UIselectors.itemList      
+ *    No APP Cria a função clearAllItemsClick
+ *      Chama ItemCtrl.clearAllItems();
+ *      Chama UICtrl.removeItems();
+ *      Chama StorageCtrl.clearItemsFromStorage();
+ *      Cria uma const totalCalories = itemCtrl.getTotalCalories();
+ *      Chama UICtrl.ShowTotalCalories(totalCalories)
+ *      Esconde a lista
+ *      UICtrl.hideList();
+ *      Por fim cria o evento do botão clearAll executando a função clearAllItemsClick
  * 
  *      
  *      
  *    
  */
-
 
 
 

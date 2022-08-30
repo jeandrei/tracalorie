@@ -39,6 +39,8 @@ const StorageCtrl = (function(){
       items.forEach(function(item, index){
         if(updatedItem.id === item.id){
           //remove the item and replace with the updatedItem
+          // no index do array apaga 1 elemento 
+          //e insere o elemento updataItemId após o index
           items.splice(index, 1, updatedItem);
         }
       });
